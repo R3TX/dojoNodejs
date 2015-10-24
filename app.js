@@ -34,6 +34,6 @@ app.get('/search', function(req,res){
 });
 
 /* Determinamos el puerto*/
-app.listen(3000, function(){
+app.listen(process.env.PORT||3000, function(){
 	console.log('Node Server Running');
 });
