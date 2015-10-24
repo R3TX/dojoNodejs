@@ -23,7 +23,12 @@ app.get('/search', function(req,res){
 			buffer +=d;
 		});
 		response.on('end', function(err){
-			res.render('index',{items: JSON.parse(buffer).tracks.items});
+			if(req.query.q != undefined && req.query.q !=""){
+				res.render('index',{items: JSON.parse(buffer).tracks.items});
+			}else{
+				res.render('index');
+			}
+			
 		});
 	});
 });
