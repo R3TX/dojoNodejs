@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var hbs = require('hbs');
+var https=require('https');
 
 
 /*set template engine*/
@@ -13,6 +14,18 @@ app.use(express.static('public'));
 /*Routes*/
 app.get('/', function(req, res){
 	res.render('index');
+});
+app.get('/search', function(req,res){
+	var endPointSpotify="https://api.spotify.com/v1/search"+"?q="+req.query.q+"&type=track&limit=10";
+	var buffer ="";
+	https.get(endPointSpotify,function(response){
+		response.on('data',function(d){
+			buffer +=d;
+		});
+		response.on('end', function(err){
+			res.render('index',{items: JSON.parse(buffer).tracks.items});
+		});
+	});
 });
 
 /* Determinamos el puerto*/
